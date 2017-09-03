@@ -16,4 +16,5 @@ Software Versions: Unity 2017.1.0p4, GVR 1.60.0
 Outside Sources:
 -"Fireplace" 234288__leosalom__fireplace.wav Freesound.org (https://freesound.org/people/leosalom/sounds/234288/), user "leosalom" Creative Commons Attribution 3.0 Unported (CC BY 3.0)
 -"Skyrim Flames" 141147__cyberkineticfilms__skyrim-flames.wav Freesound.org (https://freesound.org/people/Cyberkineticfilms/sounds/141147/), user "Cyberkineticfilms" Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+-"Fire 2" https://www.freesoundeffects.com/free-sounds/ambience-10005/, author "Partners In Rhyme", Royalty-Free Sound.
 
