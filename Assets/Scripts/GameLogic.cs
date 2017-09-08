@@ -11,6 +11,7 @@ public class GameLogic : MonoBehaviour
     public GameObject[] puzzleSpheres; //An array to hold our puzzle spheres
 
     public GameObject failAudioHolder; //A gameobject with the "fail" audio clip attached as GVR Audio Source
+    public Animator openDrawbridge;
 
     public int puzzleLength = 5; //How many times we light up.  This is the difficulty factor.  The longer it is the more you have to memorize in-game.
     public float puzzleSpeed = 1f; //How many seconds between puzzle display pulses
@@ -80,7 +81,10 @@ public class GameLogic : MonoBehaviour
         //Step through the array for displaying the puzzle, and checking puzzle failure or success.
         startUI.SetActive(false);
         eventSystem.SetActive(false);
-        iTween.MoveTo(player, playPoint.transform.position, 5f);
+
+        openDrawbridge.SetTrigger("OpenEntryGate");
+
+        iTween.MoveTo(player, playPoint.transform.position, 10f);
         CancelInvoke("displayPattern");
         InvokeRepeating("displayPattern", 3, puzzleSpeed); //Start running through the displaypattern function
         currentSolveIndex = 0; //Set our puzzle index at 0
