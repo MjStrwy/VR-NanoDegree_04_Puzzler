@@ -6,12 +6,13 @@ public class GameLogic : MonoBehaviour
 
     public GameObject player;
     public GameObject eventSystem;
-    public GameObject startUI, restartUI;
+    public GameObject startUI_0, startUI, restartUI;
     public GameObject startPoint, playPoint, restartPoint;
     public GameObject[] puzzleSpheres; //An array to hold our puzzle spheres
 
     public GameObject failAudioHolder; //A gameobject with the "fail" audio clip attached as GVR Audio Source
-    public Animator openDrawbridge;
+    public Animator entryDrawbridge;
+    public Animator exitDrawbridge;
 
     public int puzzleLength = 5; //How many times we light up.  This is the difficulty factor.  The longer it is the more you have to memorize in-game.
     public float puzzleSpeed = 1f; //How many seconds between puzzle display pulses
@@ -74,6 +75,13 @@ public class GameLogic : MonoBehaviour
 
     }
 
+    public void NextSlide()
+    {
+        // Disable the first UI panel and show the second
+        startUI_0.SetActive(false);
+        startUI.SetActive(true);
+    }
+
 
     public void startPuzzle()
     { //Begin the puzzle sequence
@@ -82,13 +90,13 @@ public class GameLogic : MonoBehaviour
         startUI.SetActive(false);
         eventSystem.SetActive(false);
 
-        openDrawbridge.SetTrigger("OpenEntryGate");
+        entryDrawbridge.SetTrigger("EntryGateOpen"); //animate drawbridge opening
 
         iTween.MoveTo(player, playPoint.transform.position, 10f);
         CancelInvoke("displayPattern");
         InvokeRepeating("displayPattern", 3, puzzleSpeed); //Start running through the displaypattern function
         currentSolveIndex = 0; //Set our puzzle index at 0
-
+        entryDrawbridge.SetTrigger("EntryGateClose");
     }
 
     void displayPattern()
@@ -141,7 +149,12 @@ public class GameLogic : MonoBehaviour
         );
 
         restartUI.SetActive(false);
+        //close entry and exit gates
+        entryDrawbridge.SetTrigger("EntryGateClose");
+        entryDrawbridge.SetTrigger("EntryGateOpen"); //animate drawbridge opening
+        exitDrawbridge.SetBool("ExitGateOpen", false);
     }
+
     public void resetGame()
     {
         restartUI.SetActive(false);
@@ -149,7 +162,7 @@ public class GameLogic : MonoBehaviour
         playerWon = false;
         generatePuzzleSequence(); //Generate the puzzle sequence for this playthrough.  
     }
-
+    
     public void puzzleFailure()
     { //Do this when the player gets it wrong
         Debug.Log("You've Failed, Resetting puzzle");
@@ -165,6 +178,8 @@ public class GameLogic : MonoBehaviour
 
     public void puzzleSuccess()
     { //Do this when the player gets it right
+        exitDrawbridge.SetBool("ExitGateOpen", true); //Animate opening the exit gate.
+
         iTween.MoveTo(player,
             iTween.Hash(
                 "position", restartPoint.transform.position,
